@@ -57,7 +57,10 @@ public class Account {
 
     public void setbalance(Double balance) { this.balance = balance; }
 
-    @JsonIgnore
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Client getClient() {
         return client;
     }

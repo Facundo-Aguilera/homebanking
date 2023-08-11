@@ -1,5 +1,6 @@
 package com.mindhub.homebanking.controllers;
 
+import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
@@ -32,6 +33,5 @@ public class ClientController {
     public ClientDTO getClient(@PathVariable Long id){
         return new ClientDTO(clientRepository.findById(id).orElse(null));
     }
-
 
     }

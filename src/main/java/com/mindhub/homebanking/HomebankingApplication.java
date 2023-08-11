@@ -2,15 +2,18 @@ package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.models.Transaction;
+import com.mindhub.homebanking.models.TransactionType;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.repositories.TransactionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.convert.Jsr310Converters;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class HomebankingApplication {
@@ -20,7 +23,7 @@ public class HomebankingApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository) {
+	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository) {
 		return (args) -> {
 
 			// Crear al clientes
@@ -65,6 +68,59 @@ public class HomebankingApplication {
 			accountRepository.save(account2);
 			accountRepository.save(account3);
 			accountRepository.save(account4);
+
+			// Crear transacciones
+			Transaction transaction1 = new Transaction();
+			transaction1.setType(TransactionType.CREDITO);
+			transaction1.setAmount(400.0);
+			transaction1.setDescription("Pago - Clase de guitarra");
+			transaction1.setDate(LocalDateTime.now());
+
+			Transaction transaction2 = new Transaction();
+			transaction2.setType(TransactionType.DEBITO);
+			transaction2.setAmount(-200.0);
+			transaction2.setDescription("Kiosco 24hs");
+			transaction2.setDate(LocalDateTime.now());
+
+			Transaction transaction3 = new Transaction();
+			transaction3.setType(TransactionType.CREDITO);
+			transaction3.setAmount(500.000);
+			transaction3.setDescription("Pago de haberes");
+			transaction3.setDate(LocalDateTime.now());
+
+			Transaction transaction4 = new Transaction();
+			transaction4.setType(TransactionType.CREDITO);
+			transaction4.setAmount(6700.0);
+			transaction4.setDescription("Transferencia de terceros");
+			transaction4.setDate(LocalDateTime.now());
+
+			Transaction transaction5 = new Transaction();
+			transaction5.setType(TransactionType.DEBITO);
+			transaction5.setAmount(-22200.0);
+			transaction5.setDescription("Débito - VISA");
+			transaction5.setDate(LocalDateTime.now());
+
+			Transaction transaction6 = new Transaction();
+			transaction6.setType(TransactionType.CREDITO);
+			transaction6.setAmount(1200.0);
+			transaction6.setDescription("Transferencia de terceros");
+			transaction6.setDate(LocalDateTime.now());
+
+			// Agregar las transacciones a las cuentas
+			account1.addTransaction(transaction1);
+			account1.addTransaction(transaction2);
+			account1.addTransaction(transaction3);
+			account2.addTransaction(transaction4);
+			account3.addTransaction(transaction5);
+			account4.addTransaction(transaction6);
+
+			//Guardar la transferencia en la base de datos
+			transactionRepository.save(transaction1);
+			transactionRepository.save(transaction2);
+			transactionRepository.save(transaction3);
+			transactionRepository.save(transaction4);
+			transactionRepository.save(transaction5);
+			transactionRepository.save(transaction6);
 		};
 }
 }

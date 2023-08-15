@@ -32,10 +32,6 @@ public class Transaction {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public TransactionType getType() {
         return type;
     }

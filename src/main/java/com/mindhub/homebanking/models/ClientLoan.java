@@ -14,7 +14,6 @@ public class ClientLoan {
     private Double amount;
     private Integer payments;
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     private Loan loan;
 

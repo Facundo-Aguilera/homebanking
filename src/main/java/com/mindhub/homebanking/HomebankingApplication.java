@@ -20,7 +20,7 @@ public class HomebankingApplication {
 
 	@Bean
 	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository,
-									  LoanRepository loanRepository, ClientLoanRepository clientLoanRepository) {
+									  LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
 		return (args) -> {
 
 			// Crear clientes
@@ -132,7 +132,6 @@ public class HomebankingApplication {
 			//Crear prestamos del cliente
 			ClientLoan clientLoan = new ClientLoan(400000d, 60, loan1, client1);
 			ClientLoan clientLoan2 = new ClientLoan(50000d, 12, loan2, client1);
-
 			ClientLoan clientLoan3 = new ClientLoan(100000d, 24, loan2, client2);
 			ClientLoan clientLoan4 = new ClientLoan(200000d, 36, loan3, client2);
 
@@ -141,6 +140,24 @@ public class HomebankingApplication {
 			clientLoanRepository.save(clientLoan2);
 			clientLoanRepository.save(clientLoan3);
 			clientLoanRepository.save(clientLoan4);
+
+			//Crear tarjetas
+			Card card = new Card(LocalDateTime.now(), LocalDateTime.now().plusYears(5), "4455-2012-1630-4045",
+					CardColor.GOLD, CardType.DEBIT, 722, "Melba Morel");
+			Card card2 = new Card(LocalDateTime.now(), LocalDateTime.now().plusYears(5), "4455-2045-8463-1776",
+					CardColor.TITANIUM, CardType.CREDIT, 852, "Melba Morel");
+			Card card3 = new Card(LocalDateTime.now(), LocalDateTime.now().plusYears(5), "4455-7845-9468-2556",
+					CardColor.SILVER, CardType.CREDIT, 798, "Sebastian Schettino");
+
+			//Asociar tarjetas a clientes
+			client1.addCard(card);
+			client1.addCard(card2);
+			client2.addCard(card3);
+
+			//Guardar tarjetas
+			cardRepository.save(card);
+			cardRepository.save(card2);
+			cardRepository.save(card3);
 		};
-}
+	}
 }

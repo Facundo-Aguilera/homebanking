@@ -18,6 +18,9 @@ public class Loan {
     @ElementCollection
     private List<Integer> payments;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "loan")
+    private Set<ClientLoan> clientLoans = new HashSet<>();;
+
     public Loan() { }
 
     public Loan(String name, Double maxAcount, List<Integer> payments) {
@@ -25,9 +28,6 @@ public class Loan {
         this.maxAmount = maxAcount;
         this.payments = payments;
     }
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "loan")
-    private Set<ClientLoan> clientLoans = new HashSet<>();;
 
     public long getId() {
         return id;

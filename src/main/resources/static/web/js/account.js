@@ -2,17 +2,20 @@ Vue.createApp({
 
     data() {
         return {
-            clientInfo: {},
+            accountInfo: {},
             errorToats: null,
             errorMsg: null,
         }
     },
     methods: {
         getData: function () {
-            axios.get("/api/clients/current")
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            axios.get(`/api/accounts/${id}`)
                 .then((response) => {
                     //get client ifo
-                    this.clientInfo = response.data;
+                    this.accountInfo = response.data;
+                    this.accountInfo.transactions.sort((a, b) => parseInt(b.id - a.id))
                 })
                 .catch((error) => {
                     // handle error
@@ -31,14 +34,6 @@ Vue.createApp({
                     this.errorToats.show();
                 })
         },
-        create: function () {
-            axios.post('/api/clients/current/accounts')
-                .then(response => window.location.reload())
-                .catch((error) => {
-                    this.errorMsg = error.response.data;
-                    this.errorToats.show();
-                })
-        }
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
